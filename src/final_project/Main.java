@@ -16,8 +16,8 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("start.fxml")); // 載入 FXML 文件
-        stage.setTitle("final");
-        stage.setScene(new Scene(root, 600, 400)); // 設定視窗大小
+        stage.setTitle("Emoji Crush");
+        stage.setScene(new Scene(root, 1000, 600)); // 設定視窗大小
         stage.show(); // 顯示視窗
 
     }
