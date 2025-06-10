@@ -1,0 +1,32 @@
+.button {
+    -fx-background-color: #33c8ff; /* 鮮明綠藍色 */
+    -fx-font-size: 35px;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-padding: 10 20;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0.2, 0, 2);
+    -fx-border-color: transparent;
+}
+
+.button:hover {
+    -fx-background-color: #146699; /* 深一點的 hover 效果 */
+}
+
+.button:pressed {
+    -fx-background-color: #146699; /* 按下去的顏色 */
+}
+
+.emoji_button {
+    -fx-background-color: transparent;
+    -fx-font-size: 24px;
+    -fx-alignment: center;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 3, 0.3, 0, 1);
+    -fx-border-color: black; /* ✅ 加這個 */
+    -fx-border-width: 0.5px;
+}
+
+.emoji_button:hover {
+    -fx-background-color: #146699; /* 深一點的 hover 效果 */
+}
