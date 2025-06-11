@@ -1,24 +1,32 @@
 package final_project;
 
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
-import javafx.scene.layout.GridPane;
-
 import java.util.*;
 
 public class Game {
     private int[][] board;
     private int rows, cols;
+    private int step = 20;
+    private int score = 0;
 
     public Game(int r, int c) {
         rows = r;
         cols = c;
         board = new int[r][c];
         randomize();
+        step = 5;
+        score = 0;
     }
 
     public int getRows(){ return rows; }
     public int getCols(){ return cols; }
+    public String getStep(){ return String.valueOf(step); }
+    public String getScore(){ return String.valueOf(score);}
+    public void move(){step--;}
+
+    public void decreaseStep() {
+        step--;
+    }
 
     public void randomize() {
         Random rand = new Random();
@@ -74,52 +82,77 @@ public class Game {
     }
 
     public boolean hasMatch() {
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols - 2; j++) {
-                int val = board[i][j];
-                if (val == board[i][j + 1] && val == board[i][j + 2]) return true;
-            }
-        }
-        for (int j = 0; j < cols; j++) {
-            for (int i = 0; i < rows - 2; i++) {
-                int val = board[i][j];
-                if (val == board[i + 1][j] && val == board[i + 2][j]) return true;
-            }
-        }
-        return false;
+        return !getMatchedCoords().isEmpty();
     }
 
-    public boolean clearMatches() {
+    public List<int[]> getMatchedCoords() {
+        List<int[]> matched = new ArrayList<>();
         boolean[][] marked = new boolean[rows][cols];
-        boolean foundMatch = false;
+        boolean triggerFullClear = false;
 
         for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols - 2; j++) {
-                int v = board[i][j];
-                if (v != -1 && v == board[i][j + 1] && v == board[i][j + 2]) {
-                    marked[i][j] = marked[i][j + 1] = marked[i][j + 2] = true;
-                    foundMatch = true;
+            for (int j = 0; j < cols - 2; ) {
+                int val = board[i][j];
+                if (val == -1) { j++; continue; }
+                int count = 1;
+                while (j + count < cols && board[i][j + count] == val) count++;
+
+                if (count >= 3) {
+                    if (count >= 5) {
+                        triggerFullClear = true;
+                    } else if (count == 4) {
+                        for (int col = 0; col < cols; col++) marked[i][col] = true;
+                    } else {
+                        for (int k = 0; k < count; k++) marked[i][j + k] = true;
+                    }
                 }
+                j += count;
             }
         }
 
         for (int j = 0; j < cols; j++) {
-            for (int i = 0; i < rows - 2; i++) {
-                int v = board[i][j];
-                if (v != -1 && v == board[i + 1][j] && v == board[i + 2][j]) {
-                    marked[i][j] = marked[i + 1][j] = marked[i + 2][j] = true;
-                    foundMatch = true;
+            for (int i = 0; i < rows - 2; ) {
+                int val = board[i][j];
+                if (val == -1) { i++; continue; }
+                int count = 1;
+                while (i + count < rows && board[i + count][j] == val) count++;
+
+                if (count >= 3) {
+                    if (count >= 5) {
+                        triggerFullClear = true;
+                    } else if (count == 4) {
+                        for (int row = 0; row < rows; row++) marked[row][j] = true;
+                    } else {
+                        for (int k = 0; k < count; k++) marked[i + k][j] = true;
+                    }
+                }
+                i += count;
+            }
+        }
+
+        if (triggerFullClear) {
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < cols; j++) matched.add(new int[]{i, j});
+            }
+        } else {
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < cols; j++) {
+                    if (marked[i][j]) matched.add(new int[]{i, j});
                 }
             }
         }
 
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                if (marked[i][j]) board[i][j] = -1;
-            }
-        }
+        return matched;
+    }
 
-        return foundMatch;
+    public int clearMarked(List<int[]> matched, int combo) {
+        int baseScore = 10;
+        int gained = matched.size() * (baseScore * combo);
+        score += gained;
+        for (int[] pos : matched) {
+            board[pos[0]][pos[1]] = -1;
+        }
+        return gained;
     }
 
     public void dropCandies() {
@@ -149,10 +182,13 @@ public class Game {
     }
 
     public void processBoard() {
-        while (clearMatches()) {
+        int combo = 1;
+        while (hasMatch()) {
+            List<int[]> matched = getMatchedCoords();
+            clearMarked(matched, combo);
             dropCandies();
             fillNewCandies();
+            combo++;
         }
     }
-
 }

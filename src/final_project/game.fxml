@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
-
+<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="final_project.ConGame">
    <children>
@@ -39,5 +40,20 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
       </GridPane>
+      <Label fx:id="step" layoutX="379.0" layoutY="42.0" prefHeight="26.0" prefWidth="64.0" text="30">
+         <font>
+            <Font name="Impact" size="30.0" />
+         </font>
+      </Label>
+      <Label fx:id="score" layoutX="689.0" layoutY="42.0" prefHeight="38.0" prefWidth="105.0" text="30">
+         <font>
+            <Font name="Impact" size="30.0" />
+         </font>
+      </Label>
+       <Label fx:id="comboLabel"
+              layoutX="200" layoutY="100"
+              style="-fx-text-fill: orange; -fx-font-size: 30px; -fx-font-weight: bold;"
+              visible="false" />
+
    </children>
 </AnchorPane>

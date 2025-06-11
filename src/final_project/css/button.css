@@ -24,9 +24,25 @@
     -fx-alignment: center;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 3, 0.3, 0, 1);
     -fx-border-color: black; /* ✅ 加這個 */
-    -fx-border-width: 0.5px;
+    -fx-border-width: 1.25px;
 }
 
 .emoji_button:hover {
     -fx-background-color: #146699; /* 深一點的 hover 效果 */
+}
+
+.finish_button{
+    -fx-background-color:#aaadaf;
+    -fx-font-size: 35px;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-padding: 10 20;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0.2, 0, 2);
+    -fx-border-color: transparent;
+}
+
+.finish_button:hover{
+    -fx-background-color:#868787
 }
